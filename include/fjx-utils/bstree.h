@@ -1,8 +1,6 @@
 #ifndef fjx_utils_bstree_h
 #define fjx_utils_bstree_h
 
-#include <stdint.h>
-#include <stddef.h>
 #include "utils.h"
 
 struct __fjx_bst_node {
