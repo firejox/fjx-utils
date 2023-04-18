@@ -115,7 +115,9 @@ void fjx_avl_insert_bf(fjx_avl_node *node, fjx_avl *tree) {
     fjx_avl_node *grand_pa, **pa_link, *tmp;
 
     avl_balancify(node);
-    for (it = node, pa = fjx_bst_parent(it), it_tag = BF_M; pa != NULL; it = pa, pa = fjx_bst_parent(pa)) {
+    for (it = node, pa = fjx_bst_parent(it), it_tag = BF_M;
+            pa != NULL;
+            it = pa, pa = fjx_bst_parent(pa)) {
         if (pa->right == it) {
             switch (fjx_avl_bf(pa)) {
                 case BF_L:
@@ -171,7 +173,9 @@ avl_remove_leaf(
     uintptr_t sibling_tag;
     fjx_avl_node **pa_link;
 
-    for (it = leaf, pa = fjx_bst_parent(it); pa != NULL; pa = grand_pa) {
+    for (it = leaf, pa = fjx_bst_parent(it);
+            pa != NULL;
+            pa = grand_pa) {
         grand_pa = fjx_bst_parent(pa);
 
         if (pa->right == it) {

@@ -17,7 +17,7 @@ macro(add_test_executable exec_name)
     list(APPEND TEST_EXEC_LIST ${exec_name})
 endmacro()
 
-add_library(main_suite OBJECT main_suite.c)
+add_library(main_suite EXCLUDE_FROM_ALL OBJECT main_suite.c)
 
 add_test_executable(list_test list_test.c $<TARGET_OBJECTS:main_suite>)
 add_test_executable(avl_test avl_test.c $<TARGET_OBJECTS:main_suite>)

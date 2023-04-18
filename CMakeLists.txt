@@ -6,7 +6,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 23)
 
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -37,3 +37,8 @@ endforeach()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(DIRECTORY include/fjx-utils DESTINATION include)
+
+set(CPACK_PACKAGE_NAME fjx-utils)
+set(CPACK_PACKAGE_CONTACT "Firejox firejox@gmail.com")
+set(CPACK_GENERATOR DEB)
+include(CPack)

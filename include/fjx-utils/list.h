@@ -56,6 +56,18 @@ static inline void fjx_list_unlink(fjx_list *node) {
     fjx_list_link(node->prev, node->next);
 }
 
+static inline fjx_list *fjx_list_pop_head(fjx_list *head) {
+    fjx_list *it = head->next;
+    fjx_list_unlink(it);
+    return it;
+}
+
+static inline fjx_list *fjx_list_pop_tail(fjx_list *head) {
+    fjx_list *it = head->prev;
+    fjx_list_unlink(it);
+    return it;
+}
+
 #define fjx_list_foreach(pos, head) \
     for (pos = (head)->next; pos != (head); pos = pos->next)
 
