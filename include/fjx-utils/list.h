@@ -20,9 +20,9 @@ static inline void fjx_list_link(fjx_list *prev, fjx_list *next) {
 }
 
 static inline void fjx_list_link_between(fjx_list *prev, fjx_list *next, fjx_list *target) {
-    prev->next = target;
     target->prev = prev;
     target->next = next;
+    prev->next = target;
     next->prev = target;
 }
 
@@ -46,6 +46,11 @@ static inline void fjx_list_add_list_tail(fjx_list *head, fjx_list *other) {
 
 static inline void fjx_list_replace(fjx_list *victim, fjx_list *node) {
     fjx_list_link_between(victim->prev, victim->next, node);
+}
+
+static inline void fjx_list_replace_init(fjx_list *victim, fjx_list *node) {
+    fjx_list_replace(victim, node);
+    fjx_list_init(victim);
 }
 
 static inline bool fjx_list_empty(fjx_list *head) {
