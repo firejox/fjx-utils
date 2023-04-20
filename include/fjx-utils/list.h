@@ -3,12 +3,12 @@
 
 #include "utils.h"
 
-struct __fjx_list {
-    struct __fjx_list *prev;
-    struct __fjx_list *next;
+struct fjx_list__ {
+    struct fjx_list__ *prev;
+    struct fjx_list__ *next;
 };
 
-typedef struct __fjx_list fjx_list;
+typedef struct fjx_list__ fjx_list;
 
 static inline void fjx_list_init(fjx_list *link) {
     link->prev = link->next = link;

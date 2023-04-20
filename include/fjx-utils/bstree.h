@@ -3,18 +3,18 @@
 
 #include "utils.h"
 
-struct __fjx_bst_node {
+struct fjx_bst_node__ {
     uintptr_t __parent;
-    struct __fjx_bst_node *left;
-    struct __fjx_bst_node *right;
+    struct fjx_bst_node__ *left;
+    struct fjx_bst_node__ *right;
 } __attribute__((aligned(sizeof(unsigned long))));
 
-struct __fjx_bst {
-    struct __fjx_bst_node *root;
+struct fjx_bst__ {
+    struct fjx_bst_node__ *root;
 };
 
-typedef struct __fjx_bst_node fjx_bst_node;
-typedef struct __fjx_bst fjx_bst;
+typedef struct fjx_bst_node__ fjx_bst_node;
+typedef struct fjx_bst__ fjx_bst;
 
 static inline fjx_bst_node *fjx_bst_parent(const fjx_bst_node *nd) {
     return (fjx_bst_node *)((void *)(nd->__parent & ~(uintptr_t)3));
