@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(fjx-utils C)
+set(IS_SUBPROJECT FALSE)
+if (DEFINED PROJECT_NAME)
+    set(IS_SUBPROJECT TRUE)
+endif()
 
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+project(fjx-utils C)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -17,28 +20,35 @@ set(CMAKE_C_FLAGS_DEBUG "-O0 -ggdb")
 set(CMAKE_C_FLAGS_RELEASE "-O2")
 
 add_subdirectory(src)
+add_subdirectory(include)
 
-target_include_directories(${PROJECT_NAME}
-    PUBLIC ${PROJECT_SOURCE_DIR}/include)
+if (NOT IS_SUBPROJECT)
+    add_subdirectory(tests)
+    get_directory_property(TEST_EXEC_LIST DIRECTORY tests DEFINITION TEST_EXEC_LIST)
 
-add_subdirectory(tests)
-get_directory_property(TEST_EXEC_LIST DIRECTORY tests DEFINITION TEST_EXEC_LIST)
+    set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
+    enable_testing()
 
-set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
-enable_testing()
+    foreach (test_name IN LISTS TEST_EXEC_LIST)
+        add_test(NAME "${test_name}" COMMAND ${CMAKE_COMMAND}
+            --build ${CMAKE_BINARY_DIR}
+            --target ${test_name})
+        add_custom_target("${test_name}" $<TARGET_FILE:build.${test_name}>)
+        add_dependencies(${test_name} "build.${test_name}")
+    endforeach()
 
-foreach (test_name IN LISTS TEST_EXEC_LIST)
-    add_test(NAME "${test_name}" COMMAND ${CMAKE_COMMAND}
-        --build ${CMAKE_BINARY_DIR}
-        --target "${test_name}.test")
-    add_custom_target("${test_name}.test" $<TARGET_FILE:${test_name}>)
-    add_dependencies("${test_name}.test" ${test_name})
-endforeach()
+    add_library(fjx-libs::utils ALIAS ${PROJECT_NAME})
 
-install(TARGETS ${PROJECT_NAME} DESTINATION lib)
-install(DIRECTORY include/fjx-utils DESTINATION include)
+    install(TARGETS ${PROJECT_NAME}
+        EXPORT ${PROJECT_NAME}
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/fjx-utils)
+    install(EXPORT ${PROJECT_NAME}
+        FILE utils.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fjx-libs)
 
-set(CPACK_PACKAGE_NAME fjx-utils)
-set(CPACK_PACKAGE_CONTACT "Firejox firejox@gmail.com")
-set(CPACK_GENERATOR DEB)
-include(CPack)
+    set(CPACK_PACKAGE_NAME fjx-utils)
+    set(CPACK_PACKAGE_CONTACT "Firejox firejox@gmail.com")
+    set(CPACK_GENERATOR DEB)
+    include(CPack)
+endif()
