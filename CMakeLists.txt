@@ -51,7 +51,7 @@ add_subdirectory(src)
 add_subdirectory(include)
 
 if (NOT IS_SUBPROJECT)
-    add_subdirectory(tests)
+    add_subdirectory(tests EXCLUDE_FROM_ALL)
     get_directory_property(TEST_EXEC_LIST DIRECTORY tests DEFINITION TEST_EXEC_LIST)
 
     set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
@@ -65,7 +65,14 @@ if (NOT IS_SUBPROJECT)
         add_dependencies(${test_name} "build.${test_name}")
     endforeach()
 
-    install(TARGETS utils utils-shared utils-objects utils-compl utils-compl-debug utils-compl-release
+    install(TARGETS
+            utils
+            utils-shared
+            utils-objects
+            utils-compl
+            utils-compl-debug
+            utils-compl-release
+            utils-headers
         EXPORT utils-targets
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
@@ -75,6 +82,9 @@ if (NOT IS_SUBPROJECT)
         NAMESPACE "fjx-libs::"
         FILE utils.cmake
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/fjx-libs)
+    export(EXPORT utils-targets
+        NAMESPACE "fjx-libs::"
+        FILE utils.cmake)
 
     set(CPACK_PACKAGE_NAME fjx-utils)
     set(CPACK_PACKAGE_CONTACT "Firejox firejox@gmail.com")

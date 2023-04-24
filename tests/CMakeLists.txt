@@ -5,19 +5,14 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/libcheck/check.git
     GIT_TAG     0.15.2
 )
-FetchContent_GetProperties(check)
-if (NOT check_POPULATED)
-    FetchContent_Populate(check)
+FetchContent_MakeAvailable(check)
 
-    add_subdirectory(${check_SOURCE_DIR} ${check_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
-
-add_library(main_suite EXCLUDE_FROM_ALL OBJECT main_suite.c)
+add_library(main_suite OBJECT main_suite.c)
 target_link_libraries(main_suite Check::check fjx-libs::utils-compl)
 
 set(TEST_EXEC_LIST "")
 macro(add_test_executable exec_name)
-    add_executable("build.${exec_name}" EXCLUDE_FROM_ALL ${ARGN})
+    add_executable("build.${exec_name}" ${ARGN})
     set_target_properties("build.${exec_name}"
         PROPERTIES
             OUTPUT_NAME ${exec_name})
