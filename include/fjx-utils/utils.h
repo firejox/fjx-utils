@@ -10,7 +10,7 @@
 static inline void *fjx_identity_ptr(void *data) { return data; }
 
 #define fjx_container_of(ptr, type, member) \
-    (type *)((char *)fjx_identity_ptr(ptr) - offsetof(type, member))
+    ((type *)((char *)fjx_identity_ptr(ptr) - offsetof(type, member)))
 
 #if defined(unreachable)
 #elif defined(__GNUC__)
