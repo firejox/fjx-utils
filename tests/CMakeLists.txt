@@ -22,4 +22,5 @@ endmacro()
 
 add_test_executable(list_test list_test.c)
 add_test_executable(avl_test avl_test.c)
+add_test_executable(splay_test splay_test.c)
 

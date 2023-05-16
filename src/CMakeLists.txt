@@ -1,4 +1,4 @@
-set(LIB_SOURCE avl_tree.c bstree.c)
+set(LIB_SOURCE avl_tree.c bstree.c splay_tree.c)
 
 if (IS_SUBPROJECT)
     add_library(${PROJECT_NAME}.utils-objects OBJECT ${LIB_SOURCE})

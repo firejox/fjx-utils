@@ -25,7 +25,8 @@ else()
         utils.h
         list.h
         bstree.h
-        avl_tree.h)
+        avl_tree.h
+        splay_tree.h)
 
     target_link_libraries(utils-objects PRIVATE     fjx-libs::utils-headers)
     target_link_libraries(utils         INTERFACE   fjx-libs::utils-headers)
